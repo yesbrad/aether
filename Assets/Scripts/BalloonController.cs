@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BalloonController : MonoBehaviour
+public class BalloonController : MonoBehaviour, ICharacter
 {
+    public CharacterController controller;
     public float speed = 5;
     [Range(0,1)]
     public float startHeat = 0.5f;
@@ -16,13 +17,15 @@ public class BalloonController : MonoBehaviour
 
     private float heat;
     private float lerpHeat;
-	private CharacterController controller;
     private Vector3 movePos;
 
-    private void Awake()
+    public bool IsLocked { get; set; }
+    public bool IsGrounded => controller.isGrounded;
+
+    private void Start()
     {
-        controller = GetComponent<CharacterController>();
         heat = startHeat;
+        PanelManager.instance.GamePanel.SetHeat(heat);
     }
 
     private void Update()
@@ -67,5 +70,6 @@ public class BalloonController : MonoBehaviour
     public void AddHeat (float amt)
     {
         heat += amt;
+        PanelManager.instance.GamePanel.SetHeat(heat);
     }
 }
