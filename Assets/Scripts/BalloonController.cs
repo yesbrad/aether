@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class BalloonController : MonoBehaviour
 {
     public float speed = 5;
+    [Range(0,1)]
+    public float startHeat = 0.5f;
     public float baseLift = -10;
     public float maxLift = 10;
     public float accelerationSpeed = 0.1f;
@@ -20,6 +22,7 @@ public class BalloonController : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        heat = startHeat;
     }
 
     private void Update()
