@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,27 +26,21 @@ public class PawnSwapManager : MonoBehaviour
 		Switch(true);
 	}
 
-	public void Switch (InputAction.CallbackContext context)
-	{
-		if (context.performed)
-		{
-			Switch(false);
-		}
-	}
-
-	public void Switch (bool forced)
+	public void Switch (bool forced = false)
 	{
 		if (isBalloon)
 		{
 			if (balloon.IsGrounded || forced)
 			{
-				Debug.Log("Back to char");
-
 				hero.enabled = true;
 				balloon.enabled = false;
+				hero.controller.enabled = false;
 				hero.transform.position = balloon.transform.position;
+				hero.controller.enabled = true;
 				pawn.transform.parent = hero.transform;
 				pawn.transform.localPosition = Vector3.zero;
+				hero.GetComponentInChildren<CinemachineVirtualCamera>().enabled = true;
+				balloon.GetComponentInChildren<CinemachineVirtualCamera>().enabled = false;
 				isBalloon = false;
 			}
 		}
@@ -53,12 +48,12 @@ public class PawnSwapManager : MonoBehaviour
 		{
 			if(Vector3.Distance(hero.transform.position, balloon.transform.position) < 2 || forced)
 			{
-				Debug.Log("InBallon");
-
 				hero.enabled = false;
 				balloon.enabled = true;
 				pawn.transform.parent = balloon.transform;
 				pawn.transform.localPosition = Vector3.zero;
+				hero.GetComponentInChildren<CinemachineVirtualCamera>().enabled = false;
+				balloon.GetComponentInChildren<CinemachineVirtualCamera>().enabled = true;
 				isBalloon = true;
 			}
 		}

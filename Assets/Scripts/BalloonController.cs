@@ -18,53 +18,56 @@ public class BalloonController : MonoBehaviour, ICharacter
     private float heat;
     private float lerpHeat;
     private Vector3 movePos;
+    private Vector3 movePosition;
+    private Vector3 pos;
 
     public bool IsLocked { get; set; }
     public bool IsGrounded => controller.isGrounded;
+    private Camera mainCam;
 
     private void Start()
     {
         heat = startHeat;
+        mainCam = Camera.main;
         PanelManager.instance.GamePanel.SetHeat(heat);
     }
 
     private void Update()
     {
-        controller.Move(movePos * Time.deltaTime);
+        movePosition = movePos;
+        movePosition = mainCam.transform.TransformDirection(movePosition) * speed;
+        
+        pos.x = movePosition.x;
+        pos.z = movePosition.z;
+
+        if (IsGrounded)
+        {
+            pos.x = 0;
+            pos.z = 0;
+        }
+
+        controller.Move(pos * Time.deltaTime);
         lerpHeat = Mathf.Lerp(lerpHeat, heat, accelerationSpeed * Time.deltaTime);
-        movePos.y = Mathf.Lerp(baseLift, maxLift, lerpHeat);
+        pos.y = Mathf.Lerp(baseLift, maxLift, lerpHeat);
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMove(Vector2 input)
     {
-        Vector2 input = context.ReadValue<Vector2>();
-
         if(controller.isGrounded == false)
         {
-            movePos.x = input.x * speed;
-            movePos.z = input.y * speed;
-        }
-        else
-        {
-            movePos.x = 0;
-            movePos.z = 0;
+            movePos.x = input.x;
+            movePos.z = input.y;
         }
     }
 
-    public void OnInflate(InputAction.CallbackContext context)
+    public void Inflate()
     {
-        if (context.performed)
-        {
-            AddHeat(inflateMultiplier);
-        }
+        AddHeat(inflateMultiplier);
     }
 
-    public void OnDeflate(InputAction.CallbackContext context)
+    public void Deflate()
     {
-        if (context.performed)
-        {
-            AddHeat(-deflateMultiplier);
-        }
+        AddHeat(-deflateMultiplier);
     }
 
     public void AddHeat (float amt)

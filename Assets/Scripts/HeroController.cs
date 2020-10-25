@@ -8,28 +8,33 @@ public class HeroController : MonoBehaviour, ICharacter
     public CharacterController controller;
     public float speed = 5;
     public float gravity = 20;
-    private Vector3 movePos;
+    private Vector3 moveInput;
     private Vector3 movePosition;
 
     public bool IsLocked { get; set; }
     public bool IsGrounded => controller.isGrounded;
 
-    private void Update()
-    {
-        if (controller.isGrounded)
-        {
-            movePosition = movePos;
-            movePosition *= speed;
-        }
+    private Camera mainCam;
+    private Vector3 pos;
 
-        movePosition.y -= gravity * Time.deltaTime;
-        controller.Move(movePosition * Time.deltaTime);
+    private void Start()
+    {
+        mainCam = Camera.main;
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    private void Update()
     {
-        Vector2 input = context.ReadValue<Vector2>();
-        movePos.x = input.x * speed;
-        movePos.z = input.y * speed;
+        movePosition = moveInput;
+        movePosition = mainCam.transform.TransformDirection(movePosition);
+        pos.x = movePosition.x * speed;
+        pos.z = movePosition.z * speed;
+        pos.y -= gravity * Time.deltaTime;
+        controller.Move(pos * Time.deltaTime);
+    }
+
+    public void OnMove(Vector2 input)
+    {
+        moveInput.x = input.x;
+        moveInput.z = input.y;
     }
 }
