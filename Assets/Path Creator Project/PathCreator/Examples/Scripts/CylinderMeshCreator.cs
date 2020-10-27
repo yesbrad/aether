@@ -3,6 +3,8 @@ using PathCreation.Utility;
 using UnityEngine;
 
 namespace PathCreation.Examples {
+
+	[SelectionBase]
 	public class CylinderMeshCreator : PathSceneTool {
 
 		public float thickness = .15f;
@@ -13,7 +15,7 @@ namespace PathCreation.Examples {
 
 		public Material material;
 
-		[SerializeField, HideInInspector]
+		[SerializeField]
 		GameObject meshHolder;
 
 		MeshFilter meshFilter;
@@ -28,7 +30,13 @@ namespace PathCreation.Examples {
 			}
 		}
 
-		void CreateMesh () {
+		[ContextMenu("UpdateMesh")]
+		public void ForceUpdateMesh ()
+		{
+			CreateMesh(true);
+		}
+
+		void CreateMesh (bool forced = false) {
 			List<Vector3> verts = new List<Vector3> ();
 			List<int> triangles = new List<int> ();
 
@@ -66,8 +74,8 @@ namespace PathCreation.Examples {
 				}
 			}
 
-			if (mesh == null) {
-				mesh = new Mesh ();
+			if (mesh == null || forced) {
+				mesh = new Mesh();
 			} else {
 				mesh.Clear ();
 			}
@@ -83,6 +91,7 @@ namespace PathCreation.Examples {
 
 			if (meshHolder == null) {
 				meshHolder = new GameObject ("Mesh Holder");
+				meshHolder.transform.parent = transform;
 			}
 
 			meshHolder.transform.rotation = Quaternion.identity;

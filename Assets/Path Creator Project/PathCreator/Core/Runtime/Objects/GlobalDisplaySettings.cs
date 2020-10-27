@@ -31,6 +31,7 @@ namespace PathCreation
 
         [Header("Control Colours")]
         public Color control = new Color(0.35f, 0.6f, 1, 0.85f);
+        public Color controlInput = new Color(1, 0.6f, 1, 0.85f);
         public Color controlHighlighted = new Color(0.8f, 0.67f, 0.97f);
         public Color controlSelected = Color.white;
         public Color handleDisabled = new Color(1, 1, 1, 0.2f);

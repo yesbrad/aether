@@ -519,9 +519,16 @@ namespace PathCreationEditor {
             bool doTransformHandle = i == handleIndexToDisplayAsTransform;
 
             PathHandle.HandleColours handleColours = (isAnchorPoint) ? splineAnchorColours : splineControlColours;
+
             if (i == handleIndexToDisplayAsTransform) {
                 handleColours.defaultColour = (isAnchorPoint) ? globalDisplaySettings.anchorSelected : globalDisplaySettings.controlSelected;
             }
+
+            if(i == 0)
+            {
+                handleColours.defaultColour = globalDisplaySettings.controlInput;
+            }
+
             var cap = capFunctions[(isAnchorPoint) ? globalDisplaySettings.anchorShape : globalDisplaySettings.controlShape];
             PathHandle.HandleInputType handleInputType;
             handlePosition = PathHandle.DrawHandle (handlePosition, bezierPath.Space, isInteractive, handleSize, cap, handleColours, out handleInputType, i);
