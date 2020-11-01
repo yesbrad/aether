@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MachineEnd : MachineBlock
 {
-	public override void Flow(PipeType type, bool flow)
+	public override void OnReciveFlow(GasType type, bool flow)
 	{
 		Debug.Log("Hit the end: " + type.ToString());
 	}

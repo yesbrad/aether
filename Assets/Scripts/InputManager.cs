@@ -8,14 +8,13 @@ public class InputManager : MonoBehaviour
     private HeroController hero;
     private BalloonController balloon;
     private BalloonCameraController balloonCamera;
-    private PawnSwapManager pawnSwapManager;
+    private PlayerManager pawnSwapManager;
 
-    private void Awake()
+    public void Init()
     {
         hero = FindObjectOfType<HeroController>();
         balloon = FindObjectOfType<BalloonController>();
         balloonCamera = FindObjectOfType<BalloonCameraController>();
-        pawnSwapManager = FindObjectOfType<PawnSwapManager>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -47,11 +46,19 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public void Switch(InputAction.CallbackContext context)
+    public void OnSwitch(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            pawnSwapManager.Switch();
+            GameManager.PlayerManager.Switch();
+        }
+    }
+
+    public void OmJump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            GameManager.PlayerManager.Hero.OnJump();
         }
     }
 }

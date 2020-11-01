@@ -2,7 +2,7 @@
 using System.Collections;
 using PathCreation;
 
-public enum PipeType
+public enum GasType
 {
 	Normal,
 	Air,
@@ -10,20 +10,26 @@ public enum PipeType
 	Water
 }
 
-[RequireComponent(typeof(PathCreator))]
-public class Pipe : MonoBehaviour, IFlowController
+[RequireComponent(typeof(PipeMeshCreator))]
+public class Pipe : MonoBehaviour, IFlowListener, IUtilityListener
 {
+	PipeMeshCreator creator;
 	PathCreator pathCreator;
 
 	private bool isFlow;
-	MachineInput input;
-	MachineOutput output;
+	MachineInteractor input;
+	MachineInteractor output;
+
+	private float emission;
 
 	MeshRenderer meshrenderer;
+
+	public PipeSettings settings { get { return creator == null ? GetComponent<PipeMeshCreator>().settings : creator.settings; } }
 
 	public void Init ()
 	{
 		pathCreator = GetComponent<PathCreator>();
+		creator = GetComponent<PipeMeshCreator>();
 		meshrenderer = GetComponentInChildren<MeshRenderer>();
 		SetFlowState(false);
 
@@ -32,29 +38,56 @@ public class Pipe : MonoBehaviour, IFlowController
 
 	void AddInteractors()
 	{
-		input = new GameObject().AddComponent<MachineInput>();
-		input.gameObject.name = "Input";
-		input.transform.parent = transform;
-		input.transform.localPosition = pathCreator.bezierPath.GetPoint(pathCreator.bezierPath.NumPoints - 1);
-		input.Init(this);
+		if(!settings.isUtility)
+		{
+			input = new GameObject().AddComponent<MachineInput>();
+			input.gameObject.name = "Input";
+			input.transform.parent = transform;
+			input.transform.localPosition = pathCreator.bezierPath.GetPoint(pathCreator.bezierPath.NumPoints - 1);
+			input.Init(this);
 
-		output = new GameObject().AddComponent<MachineOutput>();
-		output.gameObject.name = "Output";
-		output.transform.parent = transform;
-		output.transform.localPosition = pathCreator.bezierPath.GetPoint(0);
-		output.Init(this);
+			output = new GameObject().AddComponent<MachineOutput>();
+			output.gameObject.name = "Output";
+			output.transform.parent = transform;
+			output.transform.localPosition = pathCreator.bezierPath.GetPoint(0);
+			output.Init(this);
+		}
+		else
+		{
+			input = new GameObject().AddComponent<UtilityInput>();
+			input.gameObject.name = "InputUtility";
+			input.transform.parent = transform;
+			input.transform.localPosition = pathCreator.bezierPath.GetPoint(pathCreator.bezierPath.NumPoints - 1);
+			input.Init(this);
+
+			output = new GameObject().AddComponent<UtilityOutput>();
+			output.gameObject.name = "OutputUtility";
+			output.transform.parent = transform;
+			output.transform.localPosition = pathCreator.bezierPath.GetPoint(0);
+			output.Init(this);
+		}
+	}
+
+	private void Update()
+	{
+		emission = Mathf.Lerp(emission, isFlow ? 2 : 0, Time.deltaTime * 10);
+		meshrenderer.material.SetFloat("_Emission", emission);	
+		
 	}
 
 	public void SetFlowState (bool flow)
 	{
 		isFlow = flow;
-		meshrenderer.material.SetFloat("_Emission", isFlow ? 2 : 0);	
 	}
 
-	public void Flow(PipeType pipeType, bool flow)
+	public void OnReciveFlow(GasType pipeType, bool flow)
 	{
-		Debug.Log("Flowed Throught the pipe");
 		SetFlowState(flow);
-		input.machineBlock.Flow(pipeType, flow);
+		input.machineBlock.OnReciveFlow(pipeType, flow);
+	}
+
+	public void OnReciveUtility(bool isOneShot)
+	{
+		input.machineBlock.OnReciveUtility(isOneShot);
 	}
 }

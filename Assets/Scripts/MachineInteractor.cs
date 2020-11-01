@@ -23,7 +23,7 @@ public class MachineInteractor : MonoBehaviour
 
 		for (int i = 0; i < blocks.Length; i++)
 		{
-			if (Vector3.Distance(blocks[i].transform.position, transform.position) < 1)//Vector3.Distance(currentBlock.transform.position, transform.position))
+			if (Vector3.Distance(blocks[i].transform.position, transform.position) < 2)//Vector3.Distance(currentBlock.transform.position, transform.position))
 			{
 				return blocks[i];
 			}

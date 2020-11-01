@@ -7,11 +7,6 @@ public class MachineManager : MonoBehaviour
 	public Pipe[] pipes;
 	public MachineBlock[] blocks;
 
-	private void Awake()
-	{
-		Init();
-	}
-
 	public void Init()
 	{
 		pipes = FindObjectsOfType<Pipe>();
@@ -36,6 +31,17 @@ public class MachineManager : MonoBehaviour
 		foreach (MachineBlock block in blocks)
 		{
 			block.name = block.GetType().ToString();
+		}
+	}
+
+	[MenuItem("Tools/Rename Pipes")]
+	public static void RenamePipes()
+	{
+		Pipe[] pipes = FindObjectsOfType<Pipe>();
+
+		foreach (Pipe pipe in pipes)
+		{
+			pipe.name = pipe.settings ? pipe.settings.pipeID : "Pipe: MISSING SETTINGS";
 		}
 	}
 }

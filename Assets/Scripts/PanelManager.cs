@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class PanelManager : MonoBehaviour
 {
-	public static PanelManager instance;
-
 	[SerializeField]
 	private GamePanel gamePanel;
 	public GamePanel GamePanel { get { return gamePanel; } }
 
-	private void Start()
+	public void Init()
 	{
-		instance = this;
+		
 	}
 }

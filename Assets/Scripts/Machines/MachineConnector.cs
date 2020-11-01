@@ -4,23 +4,49 @@ using UnityEngine;
 
 public class MachineConnector : MachineBlock
 {
-	public bool flowSelect;
-	public int selectFlowSlot;
+	[SerializeField]
+	private bool startOn;
 
-	public override void Flow(PipeType type, bool flow)
+	public bool isOn;
+
+	public override void Init()
+	{
+		base.Init();
+	}
+
+	public override void OnReciveFlow(GasType type, bool flow)
 	{
 		//selectFlowSlot = Mathf.Clamp(-1, machineOutputs.Count - 1, selectFlowSlot);
 
-		if (!flowSelect)
+		if(startOn && flow)
 		{
-			for (int i = 0; i < machineOutputs.Count; i++)
-			{
-				machineOutputs[i].Pipe.Flow(type, flow);
-			}
+			isOn = true;
+			startOn = false;
 		}
-		else
+
+		for (int i = 0; i < machineOutputs.Count; i++)
 		{
-			machineOutputs[selectFlowSlot].Pipe.Flow(type, flow);
+			machineOutputs[i].Pipe.OnReciveFlow(type, isOn && flow);
 		}
+
+	}
+
+	public override void OnReciveUtility(bool isOneShot)
+	{
+		isOn = !isOn;
+
+		print("HE;;p");
+
+		for (int i = 0; i < machineOutputs.Count; i++)
+		{
+			machineOutputs[i].Pipe.OnReciveFlow(currentGas, isOn);
+		}
+
+		for (int i = 0; i < UtilityOutputs.Count; i++)
+		{
+			UtilityOutputs[i].Pipe.OnReciveFlow(currentGas, isOn);
+		}
+
+		base.OnReciveUtility(isOneShot);
 	}
 }

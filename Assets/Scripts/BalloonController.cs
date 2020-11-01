@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BalloonController : MonoBehaviour, ICharacter
+public class BalloonController : Controller
 {
     public CharacterController controller;
     public float speed = 5;
@@ -21,26 +21,24 @@ public class BalloonController : MonoBehaviour, ICharacter
     private Vector3 movePosition;
     private Vector3 pos;
 
-    public bool IsLocked { get; set; }
-    public bool IsGrounded => controller.isGrounded;
-    private Camera mainCam;
-
-    private void Start()
+    public override void Init()
     {
         heat = startHeat;
-        mainCam = Camera.main;
-        PanelManager.instance.GamePanel.SetHeat(heat);
+        GameManager.PanelManager.GamePanel.SetHeat(heat);
     }
 
     private void Update()
     {
+        if (!Initialized)
+            return;
+
         movePosition = movePos;
-        movePosition = mainCam.transform.TransformDirection(movePosition) * speed;
+        movePosition = MainCamera.transform.TransformDirection(movePosition) * speed;
         
         pos.x = movePosition.x;
         pos.z = movePosition.z;
 
-        if (IsGrounded)
+        if (controller.isGrounded)
         {
             pos.x = 0;
             pos.z = 0;
@@ -73,6 +71,6 @@ public class BalloonController : MonoBehaviour, ICharacter
     public void AddHeat (float amt)
     {
         heat += amt;
-        PanelManager.instance.GamePanel.SetHeat(heat);
+        GameManager.PanelManager.GamePanel.SetHeat(heat);
     }
 }

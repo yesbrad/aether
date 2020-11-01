@@ -5,19 +5,19 @@ using UnityEngine;
 public class MachineSource : MachineBlock
 {
 	[SerializeField]
-	private PipeType pipeType;
+	private GasType pipeType;
 
 	public override void Init()
 	{
 		base.Init();
-		Flow(pipeType, true);
+		OnReciveFlow(pipeType, true);
 	}
 
-	public override void Flow(PipeType type, bool flow)
+	public override void OnReciveFlow(GasType type, bool flow)
 	{
 		for (int i = 0; i < machineOutputs.Count; i++)
 		{
-			machineOutputs[i].Pipe.Flow(type, flow);
+			machineOutputs[i].Pipe.OnReciveFlow(type, flow);
 		}
 	}
 }
