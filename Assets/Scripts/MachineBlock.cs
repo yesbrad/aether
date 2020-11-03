@@ -21,6 +21,8 @@ public class MachineBlock : MonoBehaviour, IFlowListener, IUtilityListener
 
 	public GasType currentGas;
 
+	public bool Flow { get; private set; }
+
 	public virtual void Init ()
 	{
 
@@ -48,6 +50,7 @@ public class MachineBlock : MonoBehaviour, IFlowListener, IUtilityListener
 	public virtual void OnReciveFlow(GasType pipeType, bool flow)
 	{
 		currentGas = pipeType;
+		Flow = flow;
 	}
 
 	public virtual void OnReciveUtility(bool isOneShot)

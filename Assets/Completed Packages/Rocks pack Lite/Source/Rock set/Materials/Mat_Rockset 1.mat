@@ -286,7 +286,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - GrassColor: {r: 0.2731399, g: 0.6226415, b: 0.3136618, a: 0}
+    - GrassColor: {r: 0.4289338, g: 0.764151, b: 0.46659863, a: 0}
     - Vector3_ED3D9173: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}

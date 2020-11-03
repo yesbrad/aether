@@ -71,7 +71,7 @@ public class Pipe : MonoBehaviour, IFlowListener, IUtilityListener
 	private void Update()
 	{
 		emission = Mathf.Lerp(emission, isFlow ? 2 : 0, Time.deltaTime * 10);
-		meshrenderer.material.SetFloat("_Emission", emission);	
+		meshrenderer?.material.SetFloat("_Emission", emission);	
 		
 	}
 

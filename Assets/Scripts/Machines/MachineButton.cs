@@ -29,7 +29,7 @@ public class MachineButton : MachineBlock
 		isOn = startOn;
 	}
 
-	private void Update()
+	private void Update()	
 	{
 		emission = Mathf.Lerp(emission, isOn ? 100 : 1, Time.deltaTime);
 		buttonRenderer.material.SetFloat("_Emission", emission);
