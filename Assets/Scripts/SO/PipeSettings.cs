@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PipeType
+{
+	Level1,
+	Level2,
+	Level3,
+	Level4,
+	Utility
+}
+
 [CreateAssetMenu(fileName = "PipeSettings", menuName = "Pipe Settings")]
 public class PipeSettings : ScriptableObject
 {
 	public string pipeID = "Pipe";
-	public bool isUtility = false;
+	public PipeType pipeType;
 	public float width = 0.3f;
 	[Range(3, 30)]
 	public int resolutionU = 10;

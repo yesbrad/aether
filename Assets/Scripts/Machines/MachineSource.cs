@@ -10,14 +10,14 @@ public class MachineSource : MachineBlock
 	public override void Init()
 	{
 		base.Init();
-		OnReciveFlow(pipeType, true);
+		OnReciveFlow(true);
 	}
 
-	public override void OnReciveFlow(GasType type, bool flow)
+	public override void OnReciveFlow(bool flow)
 	{
-		for (int i = 0; i < machineOutputs.Count; i++)
+		for (int i = 0; i < Outputs.Count; i++)
 		{
-			machineOutputs[i].Pipe.OnReciveFlow(type, flow);
+			Outputs[i].Pipe.OnReciveFlow( true);
 		}
 	}
 }

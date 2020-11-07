@@ -7,53 +7,53 @@ public class MachineMover : MachineBlock
 	[SerializeField]
 	private Transform mover;
 
-	public bool isOn;
-
 	[SerializeField]
 	private Vector3 toPosition;
 
 	[SerializeField]
 	private float time;
+
 	private Vector3 originalPosition;
+
+	private Vector3 targetpos;
+
 
 	public override void Init()
 	{
 		base.Init();
-		originalPosition = mover.localPosition;
+		originalPosition = mover.position;
+		targetpos = originalPosition;
 	}
 
-	public override void OnReciveFlow(GasType type, bool flow)
+	private void Update()
 	{
-		base.OnReciveFlow(type, flow);
+		mover.position = Vector3.MoveTowards(mover.position, targetpos, time * Time.deltaTime);
 	}
 
-	public override void OnReciveUtility(bool isOneShot)
+	public override void OnReciveActivation(bool isActivate, bool isOneShot)
 	{
+		base.OnReciveActivation(isActivate, isOneShot);
+
 		if (Flow)
 		{
-			isOn = !isOn;
-
-			if (isOn)
-			{
-				LeanTween.moveLocal(mover.gameObject, originalPosition + toPosition, time);
-			}
-			else
-			{
-				LeanTween.moveLocal(mover.gameObject, originalPosition, time);
-			}
+			targetpos = Activated ? originalPosition + toPosition : originalPosition;
 		}
 
-		for (int i = 0; i < UtilityOutputs.Count; i++)
-		{
-			UtilityOutputs[i].Pipe.OnReciveFlow(currentGas, isOn);
-		}
+	}
 
-		base.OnReciveUtility(isOneShot);
+	public override void OnReciveFlow(bool flow)
+	{
+		base.OnReciveFlow(flow);
+
+		//if (!flow)
+		//{
+			//targetpos = originalPosition;
+		//}
 	}
 
 	private void OnDrawGizmos()
 	{
 		if(mover)
-		Gizmos.DrawWireSphere(mover.transform.position + toPosition, 0.2f);
+			Gizmos.DrawWireSphere(mover.transform.position + toPosition, 0.2f);
 	}
 }

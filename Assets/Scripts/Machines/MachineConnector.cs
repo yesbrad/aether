@@ -7,46 +7,50 @@ public class MachineConnector : MachineBlock
 	[SerializeField]
 	private bool startOn;
 
-	public bool isOn;
+	public bool UtilityInitailized { get; set; }
 
 	public override void Init()
 	{
 		base.Init();
 	}
 
-	public override void OnReciveFlow(GasType type, bool flow)
+	public override void OnReciveFlow( bool flow)
 	{
 		//selectFlowSlot = Mathf.Clamp(-1, machineOutputs.Count - 1, selectFlowSlot);
+		base.OnReciveFlow( flow);
+		Debug.Log($"{gameObject.name} Revived flow! FLOW: {Flow}");
 
-		if(startOn && flow)
+		if(startOn)
 		{
-			isOn = true;
-			startOn = false;
+			Activated = true;
+			UtilityInitailized = true;
 		}
 
-		for (int i = 0; i < machineOutputs.Count; i++)
+		if(UtilityInitailized)
 		{
-			machineOutputs[i].Pipe.OnReciveFlow(type, isOn && flow);
+			for (int i = 0; i < Outputs.Count; i++)
+			{
+				Debug.Log($"{gameObject.name} Flow: {Flow} and Activated: {Activated}", gameObject);
+				Outputs[i].Pipe.OnReciveFlow(Activated == true && Flow == true);
+			}
 		}
 
+		UtilityInitailized = true;
+		startOn = false;
 	}
 
-	public override void OnReciveUtility(bool isOneShot)
+	public override void OnReciveActivation(bool isActivate, bool isOneShot)
 	{
-		isOn = !isOn;
+		base.OnReciveActivation(isActivate, isOneShot);
 
-		print("HE;;p");
-
-		for (int i = 0; i < machineOutputs.Count; i++)
+		for (int i = 0; i < Outputs.Count; i++)
 		{
-			machineOutputs[i].Pipe.OnReciveFlow(currentGas, isOn);
+			Outputs[i].Pipe.OnReciveFlow(Activated);
 		}
 
-		for (int i = 0; i < UtilityOutputs.Count; i++)
+		for (int i = 0; i < Outputs.Count; i++)
 		{
-			UtilityOutputs[i].Pipe.OnReciveFlow(currentGas, isOn);
+			Outputs[i].Pipe.OnReciveActivation(Activated, isOneShot);
 		}
-
-		base.OnReciveUtility(isOneShot);
 	}
 }

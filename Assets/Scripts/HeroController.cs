@@ -12,8 +12,6 @@ public class HeroController : Controller
         moveInput.x = input.x;
         moveInput.z = input.y;
 
-        print(moveInput);
-
         if (HasPawn)
         {
             Pawn.SetInput(moveInput);

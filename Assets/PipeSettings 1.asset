@@ -17,5 +17,4 @@ MonoBehaviour:
   width: 0.1
   resolutionU: 6
   resolutionV: 12
-  material: {fileID: -876546973899608171, guid: 4935b16a82a1128468004e567ad23f45,
-    type: 3}
+  material: {fileID: 2100000, guid: d1ba7d6fe56f0b5499f11677aa24de9f, type: 2}

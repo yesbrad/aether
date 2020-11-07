@@ -7,7 +7,7 @@ public class MachineOutput : MachineInteractor
 	public override void Init(Pipe pipe)
 	{
 		base.Init(pipe);
-		machineBlock.AddInteractor(this, MachineBlock.BlockInteractors.MachineOutput);
+		machineBlock.AddOutput(this);
 	}
 }
 
@@ -16,26 +16,6 @@ public class MachineInput : MachineInteractor
 	public override void Init(Pipe pipe)
 	{
 		base.Init(pipe);
-		machineBlock.AddInteractor(this, MachineBlock.BlockInteractors.MachineInput);
+		machineBlock.AddInput(this);
 	}
 }
-
-
-public class UtilityOutput : MachineInteractor
-{
-	public override void Init(Pipe pipe)
-	{
-		base.Init(pipe);
-		machineBlock.AddInteractor(this, MachineBlock.BlockInteractors.UtilityOuput);
-	}
-}
-
-public class UtilityInput : MachineInteractor
-{
-	public override void Init(Pipe pipe)
-	{
-		base.Init(pipe);
-		machineBlock.AddInteractor(this, MachineBlock.BlockInteractors.UtilityInput);
-	}
-}
-

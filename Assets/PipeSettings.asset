@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pipeID: Pipe
   isUtility: 0
-  width: 0.3
+  width: 0.2
   resolutionU: 25
   resolutionV: 25.91
   material: {fileID: 2100000, guid: 5c270a73328a99e439fec44a0cf3a17d, type: 2}

@@ -1,10 +1,10 @@
 ﻿
 interface IFlowListener
 {
-	void OnReciveFlow(GasType pipeType, bool flow);
+	void OnReciveFlow(bool flow);
 }
 
-interface IUtilityListener
+interface IActivationListener
 {
-	void OnReciveUtility(bool isOneShot);
+	void OnReciveActivation(bool isActivate, bool isOneShot);
 }
