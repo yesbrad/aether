@@ -33,17 +33,17 @@ public class PlayerManager : MonoBehaviour
 	{
 		if (isBalloon)
 		{
-			if (Balloon.IsGrounded || forced)
+			if (Balloon.controller.isGrounded || forced)
 			{
 				Hero.enabled = true;
 				Balloon.enabled = false;
 
+				pawn.LockPawn(false);
 				pawn.SetPawnPosition(Balloon.transform.position);
 				Hero.SetPawn(pawn);
 				Balloon.RemovePawn();
 				pawn.Switch(Hero);
 				cameraController.Switch(false);
-
 
 				Hero.GetComponentInChildren<CinemachineVirtualCamera>().enabled = true;
 				Balloon.GetComponentInChildren<CinemachineVirtualCamera>().enabled = false;
@@ -52,11 +52,12 @@ public class PlayerManager : MonoBehaviour
 		}
 		else
 		{
-			if(Vector3.Distance(Hero.transform.position, Balloon.transform.position) < 2 || forced)
+			if(Vector3.Distance(pawn.transform.position, Balloon.transform.position) < 2 || forced)
 			{
 				Hero.enabled = false;
 				Balloon.enabled = true;
 
+				pawn.LockPawn(true);
 				Balloon.SetPawn(pawn);
 				Hero.RemovePawn();
 				pawn.Switch(Balloon);

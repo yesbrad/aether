@@ -2,13 +2,6 @@
 using System.Collections;
 using PathCreation;
 
-public enum GasType
-{
-	Normal,
-	Air,
-	Fire,
-	Water
-}
 
 [RequireComponent(typeof(PipeMeshCreator))]
 public class Pipe : MonoBehaviour, IFlowListener, IActivationListener
@@ -31,8 +24,6 @@ public class Pipe : MonoBehaviour, IFlowListener, IActivationListener
 		pathCreator = GetComponent<PathCreator>();
 		creator = GetComponent<PipeMeshCreator>();
 		meshrenderer = GetComponentInChildren<MeshRenderer>();
-		//SetFlowState(false);
-
 		AddInteractors();
 	}
 

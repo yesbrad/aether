@@ -23,6 +23,7 @@ public class BalloonController : Controller
 
     public override void Init()
     {
+        base.Init();
         heat = startHeat;
         GameManager.PanelManager.GamePanel.SetHeat(heat);
     }
@@ -70,7 +71,10 @@ public class BalloonController : Controller
 
     public void AddHeat (float amt)
     {
-        heat += amt;
-        GameManager.PanelManager.GamePanel.SetHeat(heat);
+        if (!IsLocked)
+        {
+            heat += amt;
+            GameManager.PanelManager.GamePanel.SetHeat(heat);
+        }
     }
 }

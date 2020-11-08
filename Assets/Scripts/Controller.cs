@@ -4,8 +4,6 @@ public class Controller : MonoBehaviour
 {
 	public bool IsLocked { get; set; }
 
-	public bool IsGrounded { get; }
-
 	public Pawn Pawn { get; private set; }
 
 	public bool HasPawn { get { return Pawn != null; } }

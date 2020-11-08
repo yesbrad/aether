@@ -37,6 +37,10 @@ public class Pawn : MonoBehaviour
     private bool jumpTrigger;
     private bool InCoolDownMode;
 
+    private  RaycastHit hit = new RaycastHit();
+
+    public bool Locked { get; private set; }
+
     public void Init()
     {
         controller = GetComponent<CharacterController>();
@@ -46,15 +50,13 @@ public class Pawn : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RaycastHit hit = new RaycastHit();
+        if (Locked)
+            return;
 
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.2f))
         {
-            //transform.SetParent(hit.collider.transform);
-
             if (transform != hit.transform || hit.transform == null)
                 StartCoroutine(JumpCoolDown());
-
         }
 
         movePosition = mainCam.transform.TransformDirection(moveInput);
@@ -64,7 +66,7 @@ public class Pawn : MonoBehaviour
 
         pos.x = movePosition.x * newSpeed;
         pos.z = movePosition.z * newSpeed;
-        // && animator.GetCurrentAnimatorStateInfo(0).IsName("Move")
+		
         if (jumpTrigger && controller.isGrounded)
         {
             pos.y = jumpForce;
@@ -119,5 +121,10 @@ public class Pawn : MonoBehaviour
         controller.enabled = false;
         transform.position = position;
         controller.enabled = true;
+    }
+
+    public void LockPawn (bool locked)
+    {
+        Locked = locked;
     }
 }

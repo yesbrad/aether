@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MachineSource : MachineBlock
 {
-	[SerializeField]
-	private GasType pipeType;
-
 	public override void Init()
 	{
 		base.Init();
@@ -17,7 +14,7 @@ public class MachineSource : MachineBlock
 	{
 		for (int i = 0; i < Outputs.Count; i++)
 		{
-			Outputs[i].Pipe.OnReciveFlow( true);
+			Outputs[i].Pipe.OnReciveFlow(true);
 		}
 	}
 }

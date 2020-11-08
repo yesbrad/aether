@@ -5,6 +5,12 @@ using UnityEngine;
 public class MachineConnector : MachineBlock
 {
 	[SerializeField]
+	private PipeType[] outputTypes;
+
+	[SerializeField]
+	private PipeType[] inputRequirements;
+
+	[SerializeField]
 	private bool startOn;
 
 	public bool UtilityInitailized { get; set; }
@@ -16,9 +22,7 @@ public class MachineConnector : MachineBlock
 
 	public override void OnReciveFlow( bool flow)
 	{
-		//selectFlowSlot = Mathf.Clamp(-1, machineOutputs.Count - 1, selectFlowSlot);
 		base.OnReciveFlow( flow);
-		Debug.Log($"{gameObject.name} Revived flow! FLOW: {Flow}");
 
 		if(startOn)
 		{
@@ -30,8 +34,14 @@ public class MachineConnector : MachineBlock
 		{
 			for (int i = 0; i < Outputs.Count; i++)
 			{
-				Debug.Log($"{gameObject.name} Flow: {Flow} and Activated: {Activated}", gameObject);
-				Outputs[i].Pipe.OnReciveFlow(Activated == true && Flow == true);
+				for (int x = 0; x < outputTypes.Length; x++)
+				{
+					if(outputTypes[x] == Outputs[i].Pipe.settings.pipeType)
+					{
+						Debug.Log($"{gameObject.name} Flow: {Flow} and Activated: {Activated}", gameObject);
+						Outputs[i].Pipe.OnReciveFlow(Activated == true && Flow == true);
+					}
+				}
 			}
 		}
 
@@ -45,7 +55,14 @@ public class MachineConnector : MachineBlock
 
 		for (int i = 0; i < Outputs.Count; i++)
 		{
-			Outputs[i].Pipe.OnReciveFlow(Activated);
+
+			for (int x = 0; x < outputTypes.Length; x++)
+			{
+				if (outputTypes[x] == Outputs[i].Pipe.settings.pipeType)
+				{
+					Outputs[i].Pipe.OnReciveFlow(Activated);
+				}
+			}
 		}
 
 		for (int i = 0; i < Outputs.Count; i++)
