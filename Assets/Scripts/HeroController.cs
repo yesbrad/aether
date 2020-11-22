@@ -7,6 +7,8 @@ public class HeroController : Controller
 {
     private Vector3 moveInput;
 
+    public bool IsMoving { get { return moveInput != Vector3.zero; } }
+
     public void OnMove(Vector2 input)
     {
         moveInput.x = input.x;
