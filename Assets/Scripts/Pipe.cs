@@ -52,11 +52,11 @@ public class Pipe : MonoBehaviour, IFlowListener, IActivationListener
 	public void OnReciveFlow(bool flow)
 	{
 		isFlow = flow;
-		input.machineBlock.OnReciveFlow(flow);
+		input.machineBlock?.OnReciveFlow(flow);
 	}
 
 	public void OnReciveActivation(bool isActivate, bool isOneShot)
 	{
-		input.machineBlock.OnReciveActivation(isActivate, isOneShot);
+		input.machineBlock?.OnReciveActivation(isActivate, isOneShot);
 	}
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using PathCreation.Examples;
 
-[CanEditMultipleObjects]
 [SelectionBase]
 public class PipeMeshCreator : PathSceneTool {
 

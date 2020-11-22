@@ -7,7 +7,7 @@ public class MachineOutput : MachineInteractor
 	public override void Init(Pipe pipe)
 	{
 		base.Init(pipe);
-		machineBlock.AddOutput(this);
+		machineBlock?.AddOutput(this);
 	}
 }
 
@@ -16,6 +16,6 @@ public class MachineInput : MachineInteractor
 	public override void Init(Pipe pipe)
 	{
 		base.Init(pipe);
-		machineBlock.AddInput(this);
+		machineBlock?.AddInput(this);
 	}
 }
